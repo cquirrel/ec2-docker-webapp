@@ -1,5 +1,10 @@
 version: "3.8"
 
+networks:
+  proxied:
+    external: true
+  backend:
+
 services:
   db:
     image: postgres:16
@@ -7,13 +12,15 @@ services:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypass
       POSTGRES_DB: mydb
+    networks:
+      - backend
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
   web:
-    build: ./backend
+    build: ./app
     ports:
       - "3000:3000"
     environment:
@@ -22,6 +29,9 @@ services:
       PGPASSWORD: mypass
       PGDATABASE: mydb
       PGPORT: 5432
+    networks:
+      - proxied
+      - backend
     depends_on:
       - db
     volumes:

@@ -34,8 +34,6 @@ services:
       - backend
     depends_on:
       - db
-    volumes:
-      - ./public:/app/public:ro
 
 volumes:
   pgdata:

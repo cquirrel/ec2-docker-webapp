@@ -1,7 +1,7 @@
 version: "3.8"
 
 networks:
-  proxied:
+  proxy:
     external: true
   backend:
 
@@ -30,7 +30,7 @@ services:
       PGDATABASE: mydb
       PGPORT: 5432
     networks:
-      - proxied
+      - proxy
       - backend
     depends_on:
       - db

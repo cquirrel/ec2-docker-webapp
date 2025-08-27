@@ -1,11 +1,41 @@
-version: "3.8"
+x-db-env: &db-env
+  PGHOST: db
+  PGUSER: myuser
+  PGPASSWORD: mypass
+  PGDATABASE: mydb
+  PGPORT: 5432
 
 networks:
   proxy:
     external: true
   backend:
 
+volumes:
+  db-data:
+
 services:
+  web:
+    build: app/.
+    environment:
+      <<: *db-env
+    networks:
+      - proxy
+      - backend
+    depends_on:
+      - migrate
+
+  migrate:
+    build:
+      context: database_migrations
+    networks:
+      - backend
+    environment:
+      <<: *db-env
+      DATABASE_URL: "postgres://${PGUSER}:${PGPASSWORD}@db:${PGPORT}/${PGDATABASE}"
+    volumes:
+      - ./migrations:/app/migrations
+    command: "npm run migrate up"
+
   db:
     image: postgres:16
     environment:
@@ -15,25 +45,23 @@ services:
     networks:
       - backend
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  web:
-    build: ./app
+  nginx:
+    image: nginx:latest
     ports:
-      - "3000:3000"
-    environment:
-      PGHOST: db
-      PGUSER: myuser
-      PGPASSWORD: mypass
-      PGDATABASE: mydb
-      PGPORT: 5432
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - proxy
-      - backend
     depends_on:
-      - db
-
-volumes:
-  pgdata:
+      - web

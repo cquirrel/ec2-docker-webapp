@@ -54,12 +54,9 @@ services:
       retries: 5
 
   nginx:
-    image: nginx:stable-alpine
+    build: .
     ports:
       - "8080:80"
-    volumes:
-      - ./frontend:/usr/share/nginx/html:ro
-      - ./nginx:/etc/nginx/conf.d:ro
     networks:
       - proxy
     depends_on:

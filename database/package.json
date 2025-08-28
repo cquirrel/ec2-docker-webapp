@@ -1,6 +1,7 @@
 {
   "name": "database_migrations",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "add-db-evolution": "node-pg-migrate create migration",
     "migrate": "node-pg-migrate"

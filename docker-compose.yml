@@ -26,7 +26,7 @@ services:
 
   migrate:
     build:
-      context: database_migrations
+      context: database
     networks:
       - backend
     environment:

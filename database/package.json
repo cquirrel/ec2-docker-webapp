@@ -3,13 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "add-db-evolution": "node-pg-migrate create migration",
-    "migrate": "node-pg-migrate"
+    "migrate": "DATABASE_URL=\"postgres://${PGUSER}:${PGPASSWORD}@db:${PGPORT}/${PGDATABASE}\" node-pg-migrate"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cquirrel/ec2-docker-webapp.git"
-  },
-  "private": true,
   "dependencies": {
     "node-pg-migrate": "8.0.3",
     "pg": "8.16.3"

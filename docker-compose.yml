@@ -25,16 +25,14 @@ services:
       - migrate
 
   migrate:
-    build:
-      context: database
+    build: database
     networks:
       - backend
     environment:
       <<: *db-env
       DATABASE_URL: "postgres://${PGUSER}:${PGPASSWORD}@db:${PGPORT}/${PGDATABASE}"
-    volumes:
-      - ./migrations:/app/migrations
-    command: "npm run migrate up"
+    depends_on:
+      - db
 
   db:
     image: postgres:16

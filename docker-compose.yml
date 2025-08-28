@@ -60,7 +60,7 @@ services:
       - "8080:80"
     volumes:
       - ./frontend:/usr/share/nginx/html:ro
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx:/etc/nginx/conf.d:ro
     networks:
       - proxy
     depends_on:

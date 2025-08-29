@@ -16,7 +16,7 @@ app.get('/', async (req, res) => {
         const result = await pool.query('SELECT COUNT(*) FROM counter');
         const count = parseInt(result.rows[0].count, 10);
 
-        res.json({ count });
+        res.json({ count: `${count} + Blah` });
     } catch (err) {
         console.error(err);
         res.status(500).json({error: "Oops!"});

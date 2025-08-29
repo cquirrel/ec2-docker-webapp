@@ -3,6 +3,7 @@
     "local-web-server": "5.4.0"
   },
   "scripts": {
-    "server-dev": "ws --https --port 9433 --directory ../frontend --rewrite '/api/(.*) -> http://localhost:3000/api/$1'"
+    "start-backend": "source .env && npm --prefix backend run start",
+    "server-dev": "ws --https --port 9433 --directory frontend --rewrite '/api/(.*) -> http://localhost:3000/api/$1'"
   }
 }

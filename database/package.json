@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "add-db-evolution": "node-pg-migrate create migration",
     "migrate": "node-pg-migrate"
   },
   "dependencies": {
-    "node-pg-migrate": "8.0.3",
-    "pg": "8.16.3"
+    "node-pg-migrate": "8.0.3"
   }
 }

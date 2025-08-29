@@ -1,8 +1,11 @@
 import express from 'express';
-import { pool } from './db.js';
+import { Pool } from 'pg';
+
+console.log(process.env)
 
 const app = express();
 const port = 3000;
+const pool = new Pool()
 
 // Simple API endpoint
 app.get('/', async (req, res) => {

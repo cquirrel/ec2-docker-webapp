@@ -1,8 +1,6 @@
 import express from 'express';
 import { Pool } from 'pg';
 
-console.log(process.env)
-
 const app = express();
 const port = 3000;
 const pool = new Pool()
@@ -16,7 +14,7 @@ app.get('/', async (req, res) => {
         const result = await pool.query('SELECT COUNT(*) FROM counter');
         const count = parseInt(result.rows[0].count, 10);
 
-        res.json({ count: `${count} + Blah` });
+        res.json({ count: `${count}` });
     } catch (err) {
         console.error(err);
         res.status(500).json({error: "Oops!"});

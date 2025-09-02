@@ -11,7 +11,7 @@ services:
 
   migrate:
     image: 127.0.0.1:5000/ec2-docker-webapp_migrate
-    build: migration/.
+    build: migrate/.
     secrets:
       - db-master-password
     networks:

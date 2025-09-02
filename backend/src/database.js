@@ -8,7 +8,7 @@ export function getPool() {
         const password = readFileSync('/run/secrets/db-app-password', 'utf8').trim();
         pool = new Pool({
             user: "web",
-            host: "db",
+            host: "database",
             database: "postgres",
             password
         });

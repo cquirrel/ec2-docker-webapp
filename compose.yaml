@@ -7,7 +7,7 @@ services:
     secrets:
       - db-app-password
     ports:
-      - "8080:3000"
+      - "80:3000"
 
   migrate:
     image: 127.0.0.1:5000/ec2-docker-webapp_migrate
@@ -24,8 +24,8 @@ services:
         condition: none
 
   database:
-    image: postgres:16
-    hostname: db
+    image: 127.0.0.1:5000/ec2-docker-webapp_database
+    build: database/.
     networks:
       - internal
     secrets:
@@ -35,7 +35,6 @@ services:
       POSTGRES_PASSWORD_FILE: /run/secrets/db-master-password
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./init-scripts/create-app-user.sh:/docker-entrypoint-initdb.d/create-app-user.sh
 
 volumes:
   db-data:

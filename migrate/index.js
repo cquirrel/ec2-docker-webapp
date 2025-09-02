@@ -15,7 +15,7 @@ async function _migrate() {
         dbClient = new Client({
             user: "postgres",
             password: password,
-            host: "db",
+            host: "database",
             port: 5432
         });
 

@@ -1,20 +1,21 @@
 import express from 'express';
-import { Pool } from 'pg';
+import {join} from 'path';
+import {getPool} from "./database.js";
 
 const app = express();
 const port = 3000;
-const pool = new Pool()
 
-// Simple API endpoint
-app.get('/', async (req, res) => {
+app.use(express.static(join(process.cwd(), 'frontend')));
+
+app.get('/counter', async (req, res) => {
     try {
         // Insert the fixed value
-        await pool.query('INSERT INTO counter (name) VALUES ($1)', [1]);
+        await getPool().query('INSERT INTO counter (name) VALUES ($1)', [1]);
         // Get the total count
-        const result = await pool.query('SELECT COUNT(*) FROM counter');
+        const result = await getPool().query('SELECT COUNT(*) FROM counter');
         const count = parseInt(result.rows[0].count, 10);
 
-        res.json({ count: `${count}` });
+        res.json({count: `${count}`});
     } catch (err) {
         console.error(err);
         res.status(500).json({error: "Oops!"});

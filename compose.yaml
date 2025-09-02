@@ -1,0 +1,50 @@
+services:
+  web:
+    image: 127.0.0.1:5000/ec2-docker-webapp_backend
+    build: backend/.
+    networks:
+      - internal
+    secrets:
+      - db-app-password
+    ports:
+      - "8080:3000"
+
+  migrate:
+    image: 127.0.0.1:5000/ec2-docker-webapp_migrate
+    build: migration/.
+    secrets:
+      - db-master-password
+    networks:
+      - internal
+    depends_on:
+      - database
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+  database:
+    image: postgres:16
+    hostname: db
+    networks:
+      - internal
+    secrets:
+      - db-master-password
+      - db-app-password
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db-master-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./init-scripts/start.sh:/docker-entrypoint-initdb.d/start.sh
+
+volumes:
+  db-data:
+
+networks:
+  internal:
+
+secrets:
+  db-app-password:
+    external: true
+  db-master-password:
+    external: true

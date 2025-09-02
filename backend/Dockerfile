@@ -1,7 +1,8 @@
 FROM node:20-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
-COPY src/ .
+RUN npm ci --production
+COPY src/ src
+COPY frontend/ frontend
 
-CMD ["node", "index.js"]
+CMD ["npm", "start"]

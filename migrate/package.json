@@ -1,9 +1,8 @@
 {
   "name": "database_migrations",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
-    "migrate": "node-pg-migrate"
+    "migrate": "node index.js"
   },
   "dependencies": {
     "node-pg-migrate": "8.0.3"
